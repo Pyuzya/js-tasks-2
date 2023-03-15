@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+
+<script>
+    //1
+    //без use strict [object Window]
+    'use strict'
+
+    function f() {
+        console.log((this));
+    }
+
+    let user = {
+        g: f.bind(null)
+    };
+
+    user.g();
+
+    //2
+    function f2() {
+        console.log(this.name);
+    }
+
+    f2 = f2.bind({
+        name: "Вася"
+    }).bind({
+        name: "Петя"
+    });
+
+    f2(); //Вася
+
+    //3
+
+    function sayHi() {
+        console.log(this.name);
+    }
+    sayHi.test = 5;
+
+    let bound = sayHi.bind({
+        name: "Вася"
+    });
+
+    console.log(bound.test); //undefined
+
+    //4
+
+    function askPassword(ok, fail) {
+        let password = prompt("Password?", '');
+        if (password == "rockstar") ok();
+        else fail();
+    }
+
+    let user2 = {
+        name: 'Вася',
+
+        loginOk() {
+            alert(`${this.name} logged in`);
+        },
+
+        loginFail() {
+            alert(`${this.name} failed to log in`);
+        },
+
+    };
+
+    askPassword(user2.loginOk.bind(user2), user2.loginFail.bind(user2));
+
+    //5
+    function askPassword(ok, fail) {
+        let password = prompt("Password?", '');
+        if (password == "rockstar") ok();
+        else fail();
+    }
+
+    let user3 = {
+        name: 'John',
+
+        login(result) {
+            alert(this.name + (result ? ' logged in' : ' failed to log in'));
+        }
+    };
+
+    askPassword(user3.login.bind(user3, true), user3.login.bind(user3, false));
+</script>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .kek {
+            height: 10000px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="kek">asd</div>
+</body>
+<script>
+    //1
+    let elem = document.getElementsByClassName('kek')
+    console.log(elem);
+    let scrollBottom = elem.scrollHeight - elem.scrollTop - elem.clientHeight;
+
+    //2
+    let div = document.createElement('div');
+
+    div.style.overflowY = 'scroll';
+    div.style.width = '50px';
+    div.style.height = '50px';
+
+    document.body.append(div);
+    let scrollWidth = div.offsetWidth - div.clientWidth;
+
+    div.remove();
+
+    console.log(scrollWidth);
+
+    //3
+    //https://plnkr.co/edit/nZOfSgdIMyW71wiU?preview надо что нибудь добавить, что бы превьюха обновилась
+
+    //4
+    //1 
+    //clientWidth соответствует внутренней области элемента, включая внутренние отступы padding, а CSS-ширина при
+    //соответствует внутренней области
+    //2 
+    //getComputedStyle не всегда даст ширину, он может вернуть, к примеру, "auto" для строчного элемента.
+    //3
+    //clientWidth возвращает число, а getComputedStyle(elem).width – строку с px на конце.
+</script>
+
+</html>

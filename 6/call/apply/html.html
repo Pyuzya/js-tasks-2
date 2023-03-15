@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        //Не особо понял тему, поэтому копипастно
+        //1
+        function spy(func) {
+
+            function wrapper(...args) {
+                wrapper.calls.push(args);
+                return func.apply(this, args);
+            }
+
+            wrapper.calls = [];
+
+            return wrapper;
+        }
+
+        //2
+        function delay(f, ms) {
+
+            return function () {
+                setTimeout(() => f.apply(this, arguments), ms);
+            };
+
+        }
+
+        let f1000 = delay(console.log, 1000);
+
+        f1000("test");
+
+        //3
+        function debounce(f, ms) {
+
+            let isCooldown = false;
+
+            return function () {
+                if (isCooldown) return;
+
+                f.apply(this, arguments);
+
+                isCooldown = true;
+
+                setTimeout(() => isCooldown = false, ms);
+            };
+
+        }
+
+        //4
+        function throttle(func, ms) {
+
+            let isThrottled = false,
+                savedArgs,
+                savedThis;
+
+            function wrapper() {
+
+                if (isThrottled) { // (2)
+                    savedArgs = arguments;
+                    savedThis = this;
+                    return;
+                }
+
+                func.apply(this, arguments); // (1)
+
+                isThrottled = true;
+
+                setTimeout(function () {
+                    isThrottled = false; // (3)
+                    if (savedArgs) {
+                        wrapper.apply(savedThis, savedArgs);
+                        savedArgs = savedThis = null;
+                    }
+                }, ms);
+            }
+
+            return wrapper;
+        }
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>
